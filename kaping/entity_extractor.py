@@ -9,16 +9,14 @@ from refined.inference.processor import Refined
 class RefinedEntityExtractor:
 
 	"""
-	# [['Lady Susan', Entity(wikidata_entity_id=Q581180, wikipedia_entity_title=Lady Susan), None]]
+	Use this 
+	[['Lady Susan', Entity(wikidata_entity_id=Q581180, wikipedia_entity_title=Lady Susan), None]]
 	"""
 
-	def __init__(self, model_name="wikipedia_model_with_numbers", entity_set="wikipedia"):
-
+	def __init__(self, device=-1):
 
 		# define the extractor using model name and source of entity set
-		self.extractor = Refined.from_pretrained(model_name=model_name, entity_set=entity_set)
-
-		
+		self.extractor = Refined.from_pretrained(model_name="wikipedia_model_with_numbers", entity_set="wikipedia", device=device)
 
 
 	def __call__(self, text: str):
@@ -42,7 +40,7 @@ class RefinedEntityExtractor:
 
 		# define set of entity
 		entity_set = []
-
+		print("***** Entity Extraction *****")
 		entity_set = [(span.text, span.predicted_entity.wikipedia_entity_title)
 							for span in spans]
 

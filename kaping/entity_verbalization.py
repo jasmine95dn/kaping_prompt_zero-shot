@@ -16,9 +16,9 @@ class RebelEntityVerbalizer:
 
 	"""
 
-	def __init__(self, task='text2text-generation', model_name='Babelscape/rebel-large', device=-1):
+	def __init__(self, device=-1):
 
-		self.extractor = pipeline(task, model=model_name, tokenizer=model_name, device=device)
+		self.extractor = pipeline('text2text-generation', model='Babelscape/rebel-large', tokenizer='Babelscape/rebel-large', device=device)
 
 
 	def _extract_triplets(self, text):
@@ -58,10 +58,12 @@ class RebelEntityVerbalizer:
 	    return triplets
 
 
-	def text_relation(self, text):
+	def text_relation(self, text: str):
 		"""
 		Extract the triples of relations based on given text,
 		Text could be a sentence, a short paragraph (there are limits in the number of tokens)
+
+		
 
 		"""
 		# We need to use the tokenizer manually since we need special tokens.
@@ -103,7 +105,13 @@ class RebelEntityVerbalizer:
 
 	def __call__(self, entity, entity_title=None):
 		"""
-		Output:
+		Retrieve the top k triples of KGs used as context for the question
+
+		:param entity: question in form of sentence embeddings 
+		:param entity_title:
+		:return:
+
+		Output example:
 		infos = ['(Black Eyed Peas, has part, will.i.am)',
 		 '(Black Eyed Peas, has part, apl.ap)',
 		 '(Black Eyed Peas, has part, Taboo)',

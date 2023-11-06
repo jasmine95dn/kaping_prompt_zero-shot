@@ -14,41 +14,39 @@ import random
 
 class MPNetEntityInjector:
 
-	# use this model as main model for entity injector
-	model = SentenceTransformer('sentence-transformers/all-mpnet-base-v2')
 
 	# basic prompts
 	no_knowledge_prompt = "Please answer this question"
 	leading_prompt = "Below are facts in the form of the triple meaningful to answer the questions"
 
+	def __init__(self, device=-1):
+
+		# use this model as main model for entity injector
+		self.model = SentenceTransformer('sentence-transformers/all-mpnet-base-v2')
+
 	def sentence_embedding(self, texts: list):
 		"""
 		Use MPNET to turn all into sentence embeddings
-		:param texts:
-		:
+		:param texts: list of texts to turn into sentence embeddings
 		:return: embedding in form of numpy.ndarray
 		"""
-		return MPNetEntityInjector.model.encode(texts)
+		return self.model.encode(texts)
 
-	def top_k_triple_extractor(self, question, triples, k=10, baseline=False):
+	def top_k_triple_extractor(self, question: np.ndarray, triples: np.ndarray, k=10, random=False):
 		"""
 		Retrieve the top k triples of KGs used as context for the question
 
-		:param question: question in form of sentence embeddings 
-		:type question: np.ndarray
+		:param question: question in form of sentence embeddings
 		:param triples: triples in form of sentence embeddings
-		:type triples: np.ndarray
-		:param k:
-		:type k:
-		:param baseline:
-		:type baseline:
-		:return: 
+		:param k: number of triples to retrieve
+		:param random: if this is True, retrieve random knowledge 
+		:return: list of triples
 		"""
 		# in case number of triples is fewer than k 
 		if len(triples) < k:
 			k = len(triples)
 
-		if baseline:
+		if random:
 			return random.sample(infos, k)
 
 		# if not the baseline but the top k most similar
@@ -57,29 +55,44 @@ class MPNetEntityInjector:
 
 		return [triples[index] for index in top_k_indices]
 
-	def injection(self, question, triples, baseline=False):
+	def injection(self, question: str, triples=None, no_knowledge=False):
 		"""
+		Create prompt based on question and retrieved triples
 
+		:param question: question
+		:param triples: list of triples (triples are in string)
+		:param no_knowledge: if this is True, combine the knowledge
+		:return:
 		"""
-		if baseline:
-			return f"{MPNetEntityInjector.no_knowledge_prompt} {', '.join(triples)} Question: {question} Answer: "
+		if no_knowledge:
+				return f"{MPNetEntityInjector.no_knowledge_prompt} Question: {question} Answer: "
 		else:
 			return f"{MPNetEntityInjector.leading_prompt} {', '.join(triples)} Question: {question} Answer: "
 
-	def __call__(self, question, triples, k=10, baseline=False):
+	def __call__(self, question: list, triples: list, k=10, random=False, no_knowledge=False):
 		"""
+		Retrieve the top k triples of KGs used as context for the question
 
+		:param question: 1 question in form [question]
+		:param triples: list of triples
+		:param k:
+		:param random:
+		:param no_knowledge:
+		:return:
 		"""
 		assert type(question) == list
 		assert type(triples) == list
+
+		if no_knowledge:
+			return self.injection(question, no_knowledge)
 
 		# use MPNET to turn all into sentence embeddings
 		emb_question = self.sentence_embedding(question)
 		emb_triples = self.sentence_embedding(triples)
 
 		# retrieve the top k triples
-		top_k_triples = self.top_k_triple_extractor(emb_question, emb_triples, k=k, baseline=baseline)
+		top_k_triples = self.top_k_triple_extractor(emb_question, emb_triples, k=k, random=random)
 
 		# create prompt as input
-		return self.injection(question, top_k_triples, baseline)
+		return self.injection(question, top_k_triples)
 
