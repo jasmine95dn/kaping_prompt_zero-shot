@@ -1,6 +1,6 @@
 """
-This contains the script for a simple off-the-shelf entity extractor, framework used here is ReFInED
-
+This contains the script for a simple off-the-shelf entity extractor, framework used here is ReFInED,
+an entity linking framework
 
 """
 
@@ -9,13 +9,14 @@ from refined.inference.processor import Refined
 class RefinedEntityExtractor:
 
 	"""
-	Use this 
+	For example: "Who is the author of Lady Susan?":
+	Result:
 	[['Lady Susan', Entity(wikidata_entity_id=Q581180, wikipedia_entity_title=Lady Susan), None]]
 	"""
 
 	def __init__(self, device=-1):
 
-		# define the extractor using model name and source of entity set
+		# set extractor as ReFInED extractor
 		self.extractor = Refined.from_pretrained(model_name="wikipedia_model_with_numbers", entity_set="wikipedia", device=device)
 
 
@@ -26,7 +27,6 @@ class RefinedEntityExtractor:
 		We only need the entity in raw text, and the Wikipedia info (or indeed after disambiguied by ReFIned) will be the title name of that Entity on Wikipedia page
 		
 		:param text: Question as text to pass on this extractor
-        :type text: str
         :return: A list of tuples (entity, entity_wikipedia_title).
 		"""
 

@@ -14,7 +14,6 @@ import random
 
 class MPNetEntityInjector:
 
-
 	# basic prompts
 	no_knowledge_prompt = "Please answer this question"
 	leading_prompt = "Below are facts in the form of the triple meaningful to answer the questions"
@@ -61,7 +60,7 @@ class MPNetEntityInjector:
 
 		:param question: question
 		:param triples: list of triples (triples are in string)
-		:param no_knowledge: if this is True, combine the knowledge
+		:param no_knowledge: if this is True, only add the no_knowledge_prompt only
 		:return:
 		"""
 		if no_knowledge:
@@ -75,9 +74,9 @@ class MPNetEntityInjector:
 
 		:param question: 1 question in form [question]
 		:param triples: list of triples
-		:param k:
-		:param random:
-		:param no_knowledge:
+		:param k: number of triples to retrieve
+		:param random: whether to retrieve random knowledge instead of KAPING
+		:param no_knowledge: whether to not use any extra knowledge at all
 		:return:
 		"""
 		assert type(question) == list

@@ -1,5 +1,5 @@
 """
-This contains the script for a simple off-the-shelf entity verbalizer, framework used here is Rebel
+This contains the script for a simple off-the-shelf entity verbalizer, framework used here is REBEL
 
 Steps:
 	1. For each entity, find its corresponding infos from the Wikipedia pages (using entity title for searching)
@@ -12,19 +12,19 @@ from transformers import pipeline
 
 class RebelEntityVerbalizer:
 
-	"""
-
-	"""
-
 	def __init__(self, device=-1):
 
+		# set extractor as REBEL extractor
 		self.extractor = pipeline('text2text-generation', model='Babelscape/rebel-large', tokenizer='Babelscape/rebel-large', device=device)
 
 
-	def _extract_triplets(self, text):
+	def _extract_triplets(self, text: str):
 		"""
-		Use the same code presented on Rebel github page
+		Use the same code presented on Rebel github page : https://github.com/Babelscape/rebel
+		Extract triplets from annotated text after using REBEL model to decode (see text_relation())
 
+		:param text: paragraph to extract triples of relations
+		:return: list of triplets
 		"""
 
 		triplets = []
@@ -62,12 +62,12 @@ class RebelEntityVerbalizer:
 		"""
 		Extract the triples of relations based on given text,
 		Text could be a sentence, a short paragraph (there are limits in the number of tokens)
-
-		
+		:param text: text to extract relation
+		:return: all triplets as relations (head, relation, tail)
 
 		"""
 		# We need to use the tokenizer manually since we need special tokens.
-		extracted_text = self.extractor.tokenizer.batch_decode([triplet_extractor(text, return_tensors=True, return_text=False)[0]["generated_token_ids"]])
+		extracted_text = self.extractor.tokenizer.batch_decode([self.extractor(text, return_tensors=True, return_text=False)[0]["generated_token_ids"]])
 
 		extracted_triplets = self._extract_triplets(extracted_text[0])
 		return extracted_triplets
@@ -77,7 +77,9 @@ class RebelEntityVerbalizer:
 		"""
 		Extract data from the Wikipedia page of the entity based on its entity title
 		Use the function text_relation() to build the knowledge graphs for triples "(subj, relation, obj)"
-
+		:param entity: extracted
+		:param entity_title: Wikipedia title of the extracted entity
+		:return: retrieve the triples of knowledge
 
 		"""
 
@@ -96,26 +98,24 @@ class RebelEntityVerbalizer:
 				for paragraph in paragraphs:
 					paragraph = paragraph.get_text()
 					relations = text_relation(paragraph)
-					infos.extend(relations)
+					final = [f"({', '.join(rela.values())})" for rela in relations]
+					infos.extend(final)
 			else:
 				print("No paragraphs")
 		else:
 			print("No data")
-		return infos
+		return list(set(infos))
 
 	def __call__(self, entity, entity_title=None):
 		"""
 		Retrieve the top k triples of KGs used as context for the question
 
-		:param entity: question in form of sentence embeddings 
-		:param entity_title:
-		:return:
+		:param entity: extracted
+		:param entity_title: Wikipedia title of the extracted entity
+		:return: retrieve the triples of knowledge
 
-		Output example:
+		Output example: for entity="Black Eyed Peas"
 		infos = ['(Black Eyed Peas, has part, will.i.am)',
-		 '(Black Eyed Peas, has part, apl.ap)',
-		 '(Black Eyed Peas, has part, Taboo)',
-		 '(Black Eyed Peas, has part, will.i.am)',
 		 '(Black Eyed Peas, has part, apl.ap)',
 		 '(Black Eyed Peas, has part, Taboo)',
 		 '(Black Eyed Peas, has part, Stacy Ferguson)',
