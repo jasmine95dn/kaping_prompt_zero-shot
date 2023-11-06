@@ -6,7 +6,7 @@ The process for KAPING will work as follows:
 ![KAPING](kaping-example.png)
 
 ### Requirements
-* >=python3.8 (tested on python3.8, python3.10, python 3.11)
+* at least python3.8 (tested on python3.8, python3.10, python 3.11)
 
 * After cloning the repository, install the requirements
 ```sh
