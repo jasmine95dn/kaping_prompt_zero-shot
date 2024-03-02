@@ -97,7 +97,7 @@ class RebelEntityVerbalizer:
 			if paragraphs:
 				for paragraph in paragraphs:
 					paragraph = paragraph.get_text()
-					relations = text_relation(paragraph)
+					relations = self.text_relation(paragraph)
 					final = [f"({', '.join(rela.values())})" for rela in relations]
 					infos.extend(final)
 			else:
