@@ -1,6 +1,6 @@
 # KAPING
 
-This contains script that reimplements KAPING framework (Knowledge-Augmented Language Model Prompting for Zero-Shot Knowledge Graph Question Answering, Baek et al. 2023)
+This contains script that reimplements KAPING framework (Knowledge-Augmented Language Model Prompting for Zero-Shot Knowledge Graph Question Answering, Baek et al. 2023 [URL](https://arxiv.org/abs/2306.04136))
 
 The process for KAPING will work as follows:
 ![KAPING](kaping-example.png)
