@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Legacy — replaced by pyproject.toml + poetry.lock
+requirements.txt
+
+# Distribution / packaging
+*.whl
+*.tar.gz
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# ML / data
+*.csv
+*.json
+*.jsonl
+data/
+outputs/
+checkpoints/
+*.pt
+*.pth
+*.bin
+*.safetensors
+
+# HuggingFace cache
+.cache/
+
+# Logs
+*.log
+logs/
+runs/
+tensorboard/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

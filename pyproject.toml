@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "kaping-prompt-zero-shot"
+version = "0.1.0"
+description = "Knowledge-Augmented Prompting for Zero-Shot QA"
+authors = []
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+beautifulsoup4 = "4.12.2"
+bs4 = "0.0.1"
+numpy = "1.26.1"
+scikit-learn = "1.5.0"
+sentence-transformers = "2.2.2"
+transformers = "4.53.0"
+torch = [
+    {version = "*", source = "pytorch-cpu", markers = "sys_platform == 'linux'"},
+    {version = "*", markers = "sys_platform == 'darwin'"}
+]
+refined = {url = "https://github.com/amazon-science/ReFinED/archive/refs/tags/V1.zip"}
+
+[[tool.poetry.source]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.6.0"
+pytest = "^8.0"
+pytest-mock = "^3.14"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow, requiring real ML models (deselect with '-m \"not slow\"')",
+    "system: marks system-level tests requiring full environment setup",
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
