@@ -1,0 +1,40 @@
+# Git
+.git/
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Pre-commit
+.pre-commit-config.yaml
+
+# ML / data (mount at runtime instead)
+*.csv
+*.json
+*.jsonl
+data/
+outputs/
+checkpoints/
+*.pt
+*.pth
+*.bin
+*.safetensors
+.cache/
+
+# Logs
+*.log
+logs/
+runs/
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+
+# Docs / images
+*.png
+*.md
