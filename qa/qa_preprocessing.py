@@ -2,16 +2,14 @@
 This contains a simple script to load the Mintaka dataset in json-file
 """
 
-
 import json
 
 
 class Pair:
-
     def __init__(self, question: str, entities: list, answer: str, q_type: str):
         """
         This includes a pair of question-answer in Mintaka dataset
-        
+
         """
         self.question = question
         self.entities = entities
@@ -33,14 +31,13 @@ def load_dataset(json_file: str):
         dataset = json.load(f)
 
     for data in dataset:
-        qa_pairs.append(Pair(question=data['question'], 
-                              entities=[d['mention'] for d in data['questionEntity']],
-                              answer=data['answer'],
-                              q_type=data['complexityType']  )
-                        )
+        qa_pairs.append(
+            Pair(
+                question=data["question"],
+                entities=[d["mention"] for d in data["questionEntity"]],
+                answer=data["answer"],
+                q_type=data["complexityType"],
+            )
+        )
 
     return qa_pairs
-    
-
-
-

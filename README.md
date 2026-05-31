@@ -14,7 +14,7 @@ $ pip install -r requirements.txt
 ```
 
 ### Structure
-```bash 
+```bash
 .
 ├── README.md
 ├── arguments.py
@@ -28,14 +28,14 @@ $ pip install -r requirements.txt
 │   ├── qa_inference.py
 │   └── qa_preprocessing.py
 ├── requirements.txt
-└── run.py 
+└── run.py
 ```
 
 ### Simple run
 
 * With default, this script will run a QA-inference model using Bert-large-uncased with KAPING (retrieved top-10-triples) to create prompt on CPU
 ```sh
-$ python run.py --input <mintaka_dataset.json> 
+$ python run.py --input <mintaka_dataset.json>
 ```
 * To check all arguments
 ```
@@ -45,4 +45,4 @@ $ python run.py -h
 
 * Pipeline are designed to treat Question and Context together as a Prompt and fed into the pipeline to request model to generate answer, not find the answer from the given inputs. Thus the inference task used are *text2text-generation* or *text-generation* depending on which model is compatible.
 
-* Available to test is `gpt2`, `t5-small`, `t5-base`, `t5-large`, but if you have sufficient space resource, you can try larger `t5`. Also, if you want to try other models, please check back on https://huggingface.co/. 
+* Available to test is `gpt2`, `t5-small`, `t5-base`, `t5-large`, but if you have sufficient space resource, you can try larger `t5`. Also, if you want to try other models, please check back on https://huggingface.co/.
