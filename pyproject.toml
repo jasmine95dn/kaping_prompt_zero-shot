@@ -9,10 +9,10 @@ package-mode = false
 python = ">=3.11,<3.13"
 beautifulsoup4 = "4.12.2"
 bs4 = "0.0.1"
-numpy = "1.26.1"
-scikit-learn = "1.5.0"
-sentence-transformers = "2.2.2"
-transformers = "4.53.0"
+numpy = ">=1.26.1"
+scikit-learn = ">=1.5.0"
+sentence-transformers = ">=3.0.0"
+transformers = ">=5.0.0"
 torch = [
     {version = "*", source = "pytorch-cpu", markers = "sys_platform == 'linux'"},
     {version = "*", markers = "sys_platform == 'darwin'"}
@@ -26,7 +26,7 @@ priority = "explicit"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.6.0"
-pytest = "^8.0"
+pytest = "^9.0"
 pytest-mock = "^3.14"
 
 [tool.pytest.ini_options]
