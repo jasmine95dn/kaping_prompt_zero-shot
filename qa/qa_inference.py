@@ -2,6 +2,7 @@
 This contains the script to proceed the QA inference with some models
 """
 
+from loguru import logger
 from transformers import pipeline
 
 
@@ -25,7 +26,7 @@ def qa_inference(task: str, model_name: str, prompt: str, device=-1):
 
     # for bert-large-uncased, t5-small, t5-base, t5-large
     if task == "text2text-generation":
-        print("This task is used for bert-large-uncased and t5 models")
+        logger.info("This task is used for bert-large-uncased and t5 models")
         qa_pipeline = pipeline(task, model=model_name, device=device)
         answer = qa_pipeline(prompt)
         return answer[0]["generated_text"]
@@ -34,7 +35,7 @@ def qa_inference(task: str, model_name: str, prompt: str, device=-1):
     # In this inference, as huggingface pipeline does not support text2text-generation for gpt2,
     # hence text-generation was used instead
     elif task == "text-generation":
-        print("This task is used for GPT2 model")
+        logger.info("This task is used for GPT2 model")
         qa_pipeline = pipeline(
             task, model=model_name, max_new_tokens=200, device=device
         )

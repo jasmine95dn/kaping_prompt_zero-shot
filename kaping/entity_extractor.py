@@ -4,6 +4,7 @@ an entity linking framework
 
 """
 
+from loguru import logger
 from refined.inference.processor import Refined
 
 
@@ -42,7 +43,7 @@ class RefinedEntityExtractor:
 
         # define set of entity
         entity_set = []
-        print("***** Entity Extraction *****")
+        logger.info("***** Entity Extraction *****")
         entity_set = [
             (span.text, span.predicted_entity.wikipedia_entity_title) for span in spans
         ]

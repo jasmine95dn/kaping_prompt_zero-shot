@@ -1,9 +1,12 @@
-from kaping.model import pipeline
-from qa.qa_inference import qa_inference
-from qa.qa_evaluate import accuracy, evaluate
-from qa.qa_preprocessing import load_dataset
-from arguments import k_parser
 import sys
+
+from loguru import logger
+
+from arguments import k_parser
+from kaping.model import pipeline
+from qa.qa_evaluate import corpus_metrics
+from qa.qa_inference import qa_inference
+from qa.qa_preprocessing import load_dataset
 
 
 def main():
@@ -12,11 +15,11 @@ def main():
 
     # some simple tests before running
     if not args.input:
-        print("No input file, can not run")
+        logger.error("No input file, can not run")
         sys.exit(1)
 
     if args.inference_task == "text2text-generation" and args.model_name == "gpt2":
-        print(
+        logger.error(
             "gpt2 is compatible with text-generation only, change --inference_task if you want to use gpt2"
         )
         sys.exit(1)
@@ -26,9 +29,6 @@ def main():
 
     # set up results
     results = []
-
-    # set up evaluated to calculate the accuracy
-    evaluated = []
 
     # ------- run through each question-answer pair and run KAPING
     for qa_pair in dataset:
@@ -47,18 +47,18 @@ def main():
         # add new qa_pair for output file
         results.append(qa_pair)
 
-        # evaluate to calculate the accuracy
-        evaluated.append(evaluate(qa_pair.answer, predicted_answer))
-
     msg = ""
     if args.no_knowledge:
         msg = " without knowledge"
     else:
         msg = " with random knowledge" if args.random else " using KAPING"
 
-    print(
-        f"Accuracy for infering QA task on {args.model_name}{msg}: {accuracy(evaluated):.2f}"
+    metrics = corpus_metrics(
+        [r.answer for r in results], [r.pr_answer for r in results]
     )
+    logger.info(f"Metrics for inferring QA task on {args.model_name}{msg}:")
+    for name, score in metrics.items():
+        logger.info(f"  {name}: {score:.4f}")
 
     output = (
         args.output
@@ -66,7 +66,7 @@ def main():
         else f"./mintaka_predicted_{args.model_name}_{msg[1:]}.csv"
     )
 
-    print(f"Save results in {output}")
+    logger.info(f"Save results in {output}")
     with open(output, "w") as f2w:
         for qa_pair in results:
             f2w.write(
