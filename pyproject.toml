@@ -9,6 +9,7 @@ package-mode = false
 python = ">=3.11,<3.13"
 beautifulsoup4 = "4.12.2"
 bs4 = "0.0.1"
+loguru = ">=0.7.2"
 numpy = ">=1.26.1"
 scikit-learn = ">=1.5.0"
 sentence-transformers = ">=3.0.0"

@@ -9,6 +9,7 @@ Steps:
 
 import requests
 from bs4 import BeautifulSoup
+from loguru import logger
 from transformers import pipeline
 
 
@@ -129,9 +130,9 @@ class RebelEntityVerbalizer:
                     final = [f"({', '.join(rela.values())})" for rela in relations]
                     infos.extend(final)
             else:
-                print("No paragraphs")
+                logger.warning("No paragraphs")
         else:
-            print("No data")
+            logger.warning("No data")
         return list(set(infos))
 
     def __call__(self, entity, entity_title=None):
@@ -151,5 +152,5 @@ class RebelEntityVerbalizer:
          ....,]
         """
 
-        print("***** Verbalization *****")
+        logger.info("***** Verbalization *****")
         return self._get_wikipedia_paragraph(entity, entity_title)
