@@ -2184,35 +2184,35 @@ test = ["Cython", "array-api-strict (>=2.3.1)", "asv", "gmpy2", "hypothesis (>=6
 
 [[package]]
 name = "sentence-transformers"
-version = "5.7.0"
+version = "6.0.1"
 description = "Embeddings, Retrieval, and Reranking"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "sentence_transformers-5.7.0-py3-none-any.whl", hash = "sha256:b78141da3d8137e70d965866e2ca43190b9266f3d4d8752e250ded75e7136730"},
-    {file = "sentence_transformers-5.7.0.tar.gz", hash = "sha256:fd8c8fc35e6323631dff9f3760969ebf7980dc3cfda0ab1354bc6a774cc0e5d8"},
+    {file = "sentence_transformers-6.0.1-py3-none-any.whl", hash = "sha256:b8888d72c707ba33c63aa30845850702dd5acadf1dd0d051436380bcebe4fd0f"},
+    {file = "sentence_transformers-6.0.1.tar.gz", hash = "sha256:1c3b8d9403f87ad0c879638554f36cc85744f38a6a70d150fd7e964ca0e9935b"},
 ]
 
 [package.dependencies]
-huggingface-hub = ">=0.23.0"
-numpy = ">=1.20.0"
-scikit-learn = ">=0.22.0"
+huggingface-hub = ">=1.3.0,<2.0.0"
+numpy = ">=1.24.0"
+scikit-learn = ">=1.1.0"
 scipy = ">=1.0.0"
 tokenizers = ">=0.19"
-torch = ">=1.11.0"
+torch = ">=2.2"
 tqdm = ">=4.0.0"
-transformers = ">=4.41.0,<6.0.0"
-typing_extensions = ">=4.5.0"
+transformers = ">=5.0.0,<6.0.0"
+typing_extensions = ">=4.10.0"
 
 [package.extras]
 audio = ["transformers[audio]"]
-dev = ["accelerate (>=0.20.3)", "datasets (>=2.0.0)", "peft", "pre-commit", "pytest", "pytest-cov", "pytest-env", "pytest-subtests", "pytest-xdist", "transformers[audio,video,vision]"]
+dev = ["accelerate (>=1.3.0)", "datasets (>=2.16.0)", "peft", "pre-commit", "pytest", "pytest-cov", "pytest-env", "pytest-subtests", "pytest-xdist", "transformers[audio,video,vision]"]
 image = ["transformers[vision]"]
 onnx = ["optimum-onnx[onnxruntime]"]
 onnx-gpu = ["optimum-onnx[onnxruntime-gpu]"]
-openvino = ["optimum-intel[openvino]"]
-train = ["accelerate (>=0.20.3)", "datasets (>=2.0.0)"]
+openvino = ["optimum-intel[openvino] (>=2.0.0)"]
+train = ["accelerate (>=1.3.0)", "datasets (>=2.16.0)"]
 video = ["transformers[video]"]
 
 [[package]]
